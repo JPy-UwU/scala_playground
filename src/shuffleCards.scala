@@ -80,6 +80,7 @@ object Main {
    * @param list: a list to shuffle, which is of even length
    * @return a List after carrying out required number of shuffle of list
    */
+  @annotation.tailrec
   def nshuffle(shuffleType: List[Any] => List[Any], n: Int ,list: List[Any]): List[Any] = {
     if (n <= 0) list
     else nshuffle(shuffleType, n - 1, shuffleType(list))
@@ -96,12 +97,15 @@ object Main {
    * @return the count of the number of shuffles that were required to make list1 identical to list2
    */
   def howManyShuffles(shuffleType: List[Any] => List[Any], list1: List[Any], list2: List[Any]): Int = {
-    // TODO: complete howManyShuffles()
-    -1
+    @annotation.tailrec
+    def howManyShuffles_helper(list: List[Any], n: Int): Int = {
+      if (list.equals(list2)) n
+      else howManyShuffles_helper(shuffleType(list), n + 1)
+    }
+    howManyShuffles_helper(list1, 0)
   }
 
   def main(args: Array[String]): Unit = {
-    // TODO: write test cases each function
 
     /**
      * test cases for each functions
@@ -119,7 +123,7 @@ object Main {
     var n: Int = 0
 
 
-    /*
+    /**
     * Test cases for shuffle()
     * */
 
@@ -162,7 +166,7 @@ object Main {
     else
       println("Error!!\nExpected: " + expected + " and got " + result)
 
-    /*
+    /**
      * Test cases for split()
      * */
 
@@ -189,7 +193,7 @@ object Main {
     else
       println("Error!!\nExpected: " + expected + " and got " + result)
 
-    /*
+    /**
      * testing outshuffle()
      */
 
@@ -204,7 +208,7 @@ object Main {
     else
       println("Error!!\nExpected: " + expected + " and got " + result)
 
-    /*
+    /**
      * testing inshuffle()
      */
 
@@ -219,7 +223,7 @@ object Main {
     else
       println("Error!!\nExpected: " + expected + " and got " + result)
 
-    /*
+    /**
      * testing nshuffle()
      */
 
@@ -248,5 +252,42 @@ object Main {
       println("Result: " + result)
     else
       println("Error!!\nExpected: " + expected + " and got " + result)
+
+
+
+    /**
+     * testing howManyShuffles()
+     */
+
+    // testing with outshuffle()
+    list2 = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+                14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+                27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
+                40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52)
+
+
+    list1 = nshuffle(outshuffle, 17, list2)
+    n = howManyShuffles(outshuffle, list1, list2)
+
+    println("\nCalling howManyShuffles() with " + list1 + " and " + list2)
+
+    if (n == 7)
+      println("Result: " + n)
+    else
+      println("Error!!\nExpected: 7 and got " + n)
+
+    // testing with inshuffle()
+    list1 = List(52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40,
+                39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27,
+                26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14,
+                13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+    n = howManyShuffles(inshuffle, list1, list2)
+
+    println("\nCalling howManyShuffles() with " + list1 + " and " + list2)
+
+    if (n == 26)
+      println("Result: " + n)
+    else
+      println("Error!!\nExpected:26 and got " + n)
   }
 }
