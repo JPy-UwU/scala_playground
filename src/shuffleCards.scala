@@ -54,8 +54,8 @@ object Main {
    * @return a shuffled List
    */
   def outshuffle(list: List[Any]): List[Any] = {
-    // TODO: complete outshuffle()
-    List()
+    val tempList: List[List[Any]] = split(list, list.length / 2)
+    shuffle(tempList(0), tempList(1))
   }
 
   /**
@@ -189,7 +189,19 @@ object Main {
     else
       println("Error!!\nExpected: " + expected + " and got " + result)
 
+    /*
+     * testing outshuffle()
+     */
 
+    // case 1
+    expected = List("A", 1, "B", 2, "C", 3)
+    result = outshuffle(list1)
 
+    println("\nCalling outshuffle() with " + list1);
+
+    if (expected.equals(result))
+      println("Result: " + result)
+    else
+      println("Error!!\nExpected: " + expected + " and got " + result)
   }
 }
