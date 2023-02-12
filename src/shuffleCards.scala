@@ -18,8 +18,14 @@ object Main {
    * @return a List which is a combination of the two lists
    */
   def shuffle(l1: List[Any], l2: List[Any]): List[Any] = {
-    // TODO: complete shuffle()
-    List()
+    @annotation.tailrec
+    def shuffle_helper(i: Int, j: Int, acc: List[Any]): List[Any] = {
+      if (i >= l1.length && j >= l2.length) acc
+      else if (i >= l1.length) shuffle_helper(i, j + 1, acc :+ l2(j))
+      else if (j >= l2.length) shuffle_helper(i + 1, j, acc :+ l1(i))
+      else shuffle_helper(i + 1, j + 1, acc :+ l1(i) :+ l2(j))
+    }
+    shuffle_helper(0, 0, List())
   }
 
   /**
@@ -93,5 +99,65 @@ object Main {
   def main(args: Array[String]): Unit = {
     // TODO: write test cases each function
 
+    /**
+     * test cases for each functions
+     * test cases will show expected output if the function is working as intended
+     * if not then it will show the expected out put and the output we get
+     * test cases does not include edge cases as the program assumes that functions will be provided
+     * with correct arguments everytime.
+     * */
+
+    // variables used for test cases
+    var list1: List[Any] = List()
+    var list2: List[Any] = List()
+    var expected: List[Any] = List()
+    var result: List[Any] = List()
+    var n: Int = 0
+
+
+    /*
+    * Test cases for shuffle()
+    * */
+
+    // testing with two lists of same length
+    list1 = List("A", 4, "C", "D", 5, "F")
+    list2 = List("I", "J", 1, 2, "K", 3)
+    expected = List("A", "I", 4, "J", "C", 1, "D", 2, 5, "K", "F", 3)
+    result = shuffle(list1, list2)
+
+    println("\nCalling shuffle() with " + list1 + " and " + list2)
+
+    if (expected.equals(result))
+      println("Result: " + result)
+    else
+      println("Error!!\nExpected: " + expected + " and got " + result)
+
+    // testing with list1 having smaller length then list2
+    list1 = List("A", 4, "C", "D")
+    list2 = List("I", "J", 1, 2, "K", 3, "L")
+    expected = List("A", "I", 4, "J", "C", 1, "D", 2, "K", 3, "L")
+    result = shuffle(list1, list2)
+
+    println("\nCalling shuffle() with " + list1 + " and " + list2);
+
+    if (expected.equals(result))
+      println("Result: " + result)
+    else
+      println("Error!!\nExpected: " + expected + " and got " + result)
+
+    // testing with list2 having smaller length then list1
+    list1 = List("A", 4, "C", "D", "J", 1, 2)
+    list2 = List("I", "K", 3, "L")
+    expected = List("A", "I", 4, "K", "C", 3, "D", "L", "J", 1, 2)
+    result = shuffle(list1, list2)
+
+    println("\nCalling shuffle() with " + list1 + " and " + list2);
+
+    if (expected.equals(result))
+      println("Result: " + result)
+    else
+      println("Error!!\nExpected: " + expected + " and got " + result)
+
+    
   }
 }
