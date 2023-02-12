@@ -5,7 +5,7 @@
  * An out-shuffle results in the top and the bottom cards of the stack remaining the same after the shuffle;
  * an in-shuffle results in these cards becoming the second and the second last cards of the shuffled stack.
  */
-object Main {
+object shuffleCards {
 
   /**
    * shuffle() takes two lists representing decks of cards, and returns the result of a combining of the lists.
