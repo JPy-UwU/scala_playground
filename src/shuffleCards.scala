@@ -66,8 +66,8 @@ object Main {
    * @return a shuffled List
    */
   def inshuffle(list: List[Any]): List[Any] = {
-    // TODO: complete inshuffle()
-    List()
+    val tempList: List[List[Any]] = split(list, list.length / 2)
+    shuffle(tempList(1), tempList(0))
   }
 
   /**
@@ -81,8 +81,8 @@ object Main {
    * @return a List after carrying out required number of shuffle of list
    */
   def nshuffle(shuffleType: List[Any] => List[Any], n: Int ,list: List[Any]): List[Any] = {
-    // TODO: complete nshuffle()
-    List()
+    if (n <= 0) list
+    else nshuffle(shuffleType, n - 1, shuffleType(list))
   }
 
   /**
@@ -142,7 +142,7 @@ object Main {
     expected = List("A", "I", 4, "J", "C", 1, "D", 2, "K", 3, "L")
     result = shuffle(list1, list2)
 
-    println("\nCalling shuffle() with " + list1 + " and " + list2);
+    println("\nCalling shuffle() with " + list1 + " and " + list2)
 
     if (expected.equals(result))
       println("Result: " + result)
@@ -155,7 +155,7 @@ object Main {
     expected = List("A", "I", 4, "K", "C", 3, "D", "L", "J", 1, 2)
     result = shuffle(list1, list2)
 
-    println("\nCalling shuffle() with " + list1 + " and " + list2);
+    println("\nCalling shuffle() with " + list1 + " and " + list2)
 
     if (expected.equals(result))
       println("Result: " + result)
@@ -171,7 +171,7 @@ object Main {
     expected = List(List("A", "B", "C"), List(1, 2, 3))
     result = split(list1, 3)
 
-    println("\nCalling split() with " + list1 + " and 3");
+    println("\nCalling split() with " + list1 + " and 3")
 
     if (expected.equals(result))
       println("Result: " + result)
@@ -197,7 +197,52 @@ object Main {
     expected = List("A", 1, "B", 2, "C", 3)
     result = outshuffle(list1)
 
-    println("\nCalling outshuffle() with " + list1);
+    println("\nCalling outshuffle() with " + list1)
+
+    if (expected.equals(result))
+      println("Result: " + result)
+    else
+      println("Error!!\nExpected: " + expected + " and got " + result)
+
+    /*
+     * testing inshuffle()
+     */
+
+    // case 1
+    expected = List(1, "A", 2, "B", 3, "C")
+    result = inshuffle(list1)
+
+    println("\nCalling inshuffle() with " + list1)
+
+    if (expected.equals(result))
+      println("Result: " + result)
+    else
+      println("Error!!\nExpected: " + expected + " and got " + result)
+
+    /*
+     * testing nshuffle()
+     */
+
+    // testing with outshuffle()
+    list1 = List("A", 4, "C", "D", 5, "F")
+    n = 3
+    expected = List("A", "C", 5, 4, "D", "F")
+    result = nshuffle(outshuffle, n, list1)
+
+    println("\nCalling nshuffle() with " + list1)
+
+    if (expected.equals(result))
+      println("Result: " + result)
+    else
+      println("Error!!\nExpected: " + expected + " and got " + result)
+
+    // testing with inshuffle()
+    list1 = List("A", 4, "C", "D", 5, "F")
+    n = 7
+    expected = List("D", "A", 5, 4, "F", "C")
+    result = nshuffle(inshuffle, n, list1)
+
+    println("\nCalling nshuffle() with " + list1)
 
     if (expected.equals(result))
       println("Result: " + result)
