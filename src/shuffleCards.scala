@@ -38,8 +38,12 @@ object Main {
    * @return a List of two Lists, where each List is split from the list
    */
   def split(list: List[Any], n: Int): List[List[Any]] = {
-    // TODO: complete split()
-    List()
+    @annotation.tailrec
+    def split_helper(i: Int, n: Int, acc: List[Any]): List[Any] = {
+      if (i >= n) acc
+      else split_helper(i + 1, n, acc :+ list(i))
+    }
+    List(split_helper(0, n, List()), split_helper(n, list.length, List()))
   }
 
   /**
@@ -158,6 +162,34 @@ object Main {
     else
       println("Error!!\nExpected: " + expected + " and got " + result)
 
-    
+    /*
+     * Test cases for split()
+     * */
+
+    // case 1
+    list1 = List("A", "B", "C", 1, 2, 3)
+    expected = List(List("A", "B", "C"), List(1, 2, 3))
+    result = split(list1, 3)
+
+    println("\nCalling split() with " + list1 + " and 3");
+
+    if (expected.equals(result))
+      println("Result: " + result)
+    else
+      println("Error!!\nExpected: " + expected + " and got " + result)
+
+    // case 2
+    expected = List(List("A", "B", "C", 1, 2), List(3))
+    result = split(list1, 5)
+
+    println("\nCalling split() with " + list1 + " and 5");
+
+    if (expected.equals(result))
+      println("Result: " + result)
+    else
+      println("Error!!\nExpected: " + expected + " and got " + result)
+
+
+
   }
 }
