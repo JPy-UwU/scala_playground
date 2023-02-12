@@ -7,7 +7,7 @@
  */
 object Main {
 
-  
+
   def main(args: Array[String]): Unit = {
     //TODO: write test cases each function
 
