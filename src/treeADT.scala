@@ -1,3 +1,4 @@
+
 /**
  * Represents a polymorphic Tree data type, where a Tree is either a Node with a left subtree, a value,
  * and a right subtree; or it is a Leaf with just a value.
@@ -7,8 +8,10 @@ object treeADT {
 
   // companion functions for the tree
   sealed trait Tree[+A]
+
   case class Leaf[A](value: A) extends Tree[A]
-  case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+
+  case class Branch[A](left: Tree[A], right: Tree[A], value: A) extends Tree[A]
 
   /**
    * An in-order traversal of a tree visits the nodes in the order left subtree, root, right subtree.
@@ -16,9 +19,9 @@ object treeADT {
    * @param tree: a tree
    * @return a list with the contents of the tree when traversed in-order
    */
-  def inOrder[A](tree: Tree[A]): List[A] = {
-    // TODO: complete inOrder()
-    List[A]()
+  def inOrder[A](tree: Tree[A]): List[A] = tree match {
+    case Leaf(value) => List(value)
+    case Branch(left, right, value) =>  inOrder(left) ++ List(value) ++ inOrder(right)
   }
 
   /**
@@ -27,9 +30,10 @@ object treeADT {
    * @param tree : a tree
    * @return a list with the contents of the tree when traversed pre-order
    */
-  def preOrder[A](tree: Tree[A]): List[A] = {
+  def preOrder[A](tree: Tree[A]): List[A] = tree match{
     // TODO: complete preOrder()
-    List[A]()
+    case Leaf(value) => List(value)
+    case Branch(left, right, value) => preOrder(left) ++ preOrder(right) ++ List(value)
   }
 
   /**
@@ -38,9 +42,10 @@ object treeADT {
    * @param tree : a tree
    * @return a list with the contents of the tree when traversed post-order
    */
-  def postOrder[A](tree: Tree[A]): List[A] = {
+  def postOrder[A](tree: Tree[A]): List[A] = tree match {
     // TODO: complete postOrder()
-    List[A]()
+    case Leaf(value) => List(value)
+    case Branch(left, right, value) => postOrder(left) ++ postOrder(right) ++ List(value)
   }
 
   /**
@@ -50,9 +55,10 @@ object treeADT {
    * @param key: a key to find in the tree
    * @return a boolean representing whether the key was found or not
    */
-  def search[A](tree: Tree[A], key: A): Boolean = {
+  def search[A](tree: Tree[A], key: A): Boolean = tree match {
     // TODO: complete search()
-    false
+    case Leaf(value) => value == key
+    case Branch(left, right, value) => search(left, key) || search(right, key)
   }
 
   /**
@@ -64,13 +70,14 @@ object treeADT {
    * @param after: what to replace with
    * @return A Tree with all instances of before replaced with the value after
    */
-  def repalce[A](t: Tree[A], before: A, after: A): Tree[A] = {
-    // TODO: complete replace()
-    t
+  def replace[A](t: Tree[A], before: A, after: A): Tree[A] = t match {
+    case Leaf(value) => if (value == before) Leaf(after) else Leaf(before)
+    case Branch(left, right, value) => Branch(replace(left, before, after), replace(right, before, after), value)
   }
 
-  def Main(args: Array[String]): Unit = {
-  // TODO: write testcases for
+  def main(args: Array[String]): Unit = {
+    // TODO: write testcases for
+
 
   }
 }
