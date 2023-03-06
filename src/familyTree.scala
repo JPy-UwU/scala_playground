@@ -19,7 +19,7 @@ object familyTree {
    */
   def children(parent1: String, parent2: String): Option[List[String]] = {
     val childrenName = royalParent.filter {
-      case(_, (gender, father, mother)) => (parent1 == father && parent2 == mother || parent2 == father && parent1 == mother)
+      case(_, (_, father, mother)) => (parent1 == father && parent2 == mother || parent2 == father && parent1 == mother)
     }.keys.toList
 
     if (childrenName.nonEmpty) Some(childrenName) else None
@@ -74,6 +74,23 @@ object familyTree {
 
   def main(args: Array[String]): Unit = {
     // TODO: Add test cases for all functions
+
+    /**
+     * test cases for each functions
+     * test cases will show expected output if the function is working as intended
+     * if not then it will show the expected out put and the output we get
+     * test cases does not include edge cases as the program assumes that functions will be provided
+     * with correct arguments everytime.
+     * */
+
+    // variables used for test cases
+    var name: String = "";
+    var result: List[String] = List();
+
+    /**
+     * test cases for children()
+     */
+
 
   }
 }
