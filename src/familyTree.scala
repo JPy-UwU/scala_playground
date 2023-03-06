@@ -68,8 +68,19 @@ object familyTree {
    * @return a list of string which is of option type and has names of first cousins inside
    */
   def firstCousins(p: String): Option[List[String]] = {
-    // TODO: implement firstCousins()
-    None
+    val parent = parents(p)
+    if (parent != None) {
+      val siblings = parents(parent(0))
+
+      //  children(parent(0), parent(1)).get ++ children(parent(1), parent(0)).get
+
+      println(siblings)
+      val cousins = royalParent.filter {
+        case(_, (_, p1, p2)) => siblings.contains(p1) || siblings.contains(p2)
+      }.keys.toList
+
+      if (cousins != None) Some(cousins) else None
+    } else None
   }
 
   /**
@@ -80,8 +91,9 @@ object familyTree {
    * @return a list of string which is of option type and has names of uncles inside
    */
   def uncles(p: String): Option[List[String]] = {
-    // TODO: implement uncles()
-    None
+    val unclesList = children(grandparents(p).get(0), grandparents(p).get(1)).get ++ children(grandparents(p).get(2), grandparents(p).get(3)).get
+    val uncle = unclesList.filter(name => royalParent(name)._1 == "m")
+    if (uncle != None) Some(uncle) else None
   }
 
   /**
@@ -92,7 +104,11 @@ object familyTree {
    */
   def parents(p: String): List[String] = {
     royalParent.get(p).map {
-      case(_, father, mother) => List(father) ++ List(mother)
+      case(_, father, mother) =>
+        if (father != None && mother != None) List(father) ++ List(mother)
+        else if (father == None && mother != None) List(mother)
+        else if (father != None && mother == None) List(father)
+        else List()
     }.toList(0)
   }
 
@@ -120,6 +136,6 @@ object familyTree {
     if (children("Krutik", "Kumbhani").isDefined)
       println("Error in children()")
 
-    println(sisters("Beatrice"))
+    println(uncles("William"))
   }
 }
