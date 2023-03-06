@@ -73,12 +73,24 @@ object familyTree {
   }
 
   /**
+   * parents() takes a name as an argument and returns either a list of parents or None as option type.
+   *
+   * @param p: a string containing a name
+   * @return a list of string which is of option type and has names of parents inside
+   */
+  def parents(p: String): Option[(String, String)] = {
+    royalParent.get(p).map {
+      case(_, father, mother) => (father, mother)
+    }
+  }
+
+  /**
    * lift() returns a function which maps None to None and applies function to the contents of Some.
    *
-   * @param f: a function to be applied
+   * @param f : a function to be applied
    * @return a function which maps None to None and applies function to the contents of Somes
    */
-  def lift[A,B](f: A => B): Option[A] => Option[B] = _ map f
+  def lift[A, B](f: A => B): Option[A] => Option[B] = _ map f
 
 
   def main(args: Array[String]): Unit = {
