@@ -33,8 +33,15 @@ object familyTree {
    * @return a list of string which is of option type and has names of grandparents inside
    */
   def grandparents(p: String): Option[List[String]] = {
-    // TODO: implement grandparents()
-    None
+    val parentsNames = parents(p)
+    var grandParentsNames1: List[String] = List()
+    var grandParentsNames2: List[String] = List()
+
+    if (!parentsNames(0).isEmpty) grandParentsNames1 = parents(parentsNames(0))
+    if (!parentsNames(0).isEmpty) grandParentsNames2 = parents(parentsNames(1))
+
+    val grandParentsNames = grandParentsNames1 ++ grandParentsNames2
+    if (grandParentsNames.isEmpty) None else Some(grandParentsNames.)
   }
 
   /**
@@ -78,10 +85,10 @@ object familyTree {
    * @param p: a string containing a name
    * @return a list of string which is of option type and has names of parents inside
    */
-  def parents(p: String): Option[(String, String)] = {
+  def parents(p: String): List[String] = {
     royalParent.get(p).map {
-      case(_, father, mother) => (father, mother)
-    }
+      case(_, father, mother) => List(father) ++ List(mother)
+    }.toList(0)
   }
 
   /**
@@ -91,7 +98,6 @@ object familyTree {
    * @return a function which maps None to None and applies function to the contents of Somes
    */
   def lift[A, B](f: A => B): Option[A] => Option[B] = _ map f
-
 
   def main(args: Array[String]): Unit = {
     // TODO: Add test cases for all functions
@@ -109,12 +115,14 @@ object familyTree {
      */
 
     // testing with legit names
-    if (children("Harry", "Meghan") != Some(List("Lilibet", "Archie")))
+    if (!children("Harry", "Meghan").contains(List("Lilibet", "Archie")))
       println("Error in children()")
 
     // testing with random names that does not exist
 
-    if (children("Krutik", "Kumbhani") != None)
+    if (children("Krutik", "Kumbhani").isDefined)
       println("Error in children()")
+
+    println(grandparents("Beatrice"))
   }
 }
