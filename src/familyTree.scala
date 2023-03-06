@@ -41,7 +41,7 @@ object familyTree {
     if (!parentsNames(0).isEmpty) grandParentsNames2 = parents(parentsNames(1))
 
     val grandParentsNames = grandParentsNames1 ++ grandParentsNames2
-    if (grandParentsNames.isEmpty) None else Some(grandParentsNames.)
+    if (grandParentsNames.isEmpty) None else Some(grandParentsNames)
   }
 
   /**
@@ -51,8 +51,13 @@ object familyTree {
    * @return a list of string which is of option type and has names of sisters inside
    */
   def sisters(p: String): Option[List[String]] = {
-    // TODO: implement sisters()
-    None
+    val parent = parents(p)
+    if (parent != None) {
+      val child = children(parent(0), parent(1)).getOrElse(List())
+      val sister = child.filter(name => royalParent(name)._1 == "f" && name != parent)
+
+      if (sister != None) Some(sister) else None
+    } else None
   }
 
   /**
@@ -91,14 +96,6 @@ object familyTree {
     }.toList(0)
   }
 
-  /**
-   * lift() returns a function which maps None to None and applies function to the contents of Some.
-   *
-   * @param f : a function to be applied
-   * @return a function which maps None to None and applies function to the contents of Somes
-   */
-  def lift[A, B](f: A => B): Option[A] => Option[B] = _ map f
-
   def main(args: Array[String]): Unit = {
     // TODO: Add test cases for all functions
 
@@ -123,6 +120,6 @@ object familyTree {
     if (children("Krutik", "Kumbhani").isDefined)
       println("Error in children()")
 
-    println(grandparents("Beatrice"))
+    println(sisters("Beatrice"))
   }
 }
