@@ -72,6 +72,15 @@ object familyTree {
     None
   }
 
+  /**
+   * lift() returns a function which maps None to None and applies function to the contents of Some.
+   *
+   * @param f: a function to be applied
+   * @return a function which maps None to None and applies function to the contents of Somes
+   */
+  def lift[A,B](f: A => B): Option[A] => Option[B] = _ map f
+
+
   def main(args: Array[String]): Unit = {
     // TODO: Add test cases for all functions
 
@@ -83,14 +92,17 @@ object familyTree {
      * with correct arguments everytime.
      * */
 
-    // variables used for test cases
-    var name: String = "";
-    var result: List[String] = List();
-
     /**
      * test cases for children()
      */
 
+    // testing with legit names
+    if (children("Harry", "Meghan") != Some(List("Lilibet", "Archie")))
+      println("Error in children()")
 
+    // testing with random names that does not exist
+
+    if (children("Krutik", "Kumbhani") != None)
+      println("Error in children()")
   }
 }
