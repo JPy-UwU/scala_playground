@@ -18,8 +18,11 @@ object familyTree {
    * @return a list of string which is of option type and has names of children inside
    */
   def children(parent1: String, parent2: String): Option[List[String]] = {
-    // TODO: implement children()
-   None
+    val childrenName = royalParent.filter {
+      case(_, (gender, father, mother)) => (parent1 == father && parent2 == mother || parent2 == father && parent1 == mother)
+    }.keys.toList
+
+    if (childrenName.nonEmpty) Some(childrenName) else None
   }
 
   /**
