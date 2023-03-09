@@ -18,11 +18,24 @@ object pythagoreanFunct {
    * @return a list of all pythagorean triples whose components are at most a given limit
    */
   def pyth(n: Int): List[(Int, Int, Int)] = {
-    // TODO: implement pyth()
-    List()
+    val numList = unfold(1) { num =>
+      if (num <= n) Some(num, num + 1)
+      else None
+    }
+
+    val triples = for {
+      x <- numList
+      y <- numList
+      z <- numList
+    } yield (x, y, z)
+
+    val pythTriples = triples.filter {
+      case (x, y, z) => x*x + y*y == z*z
+    }
+    pythTriples.toList
   }
 
   def main(args: Array[String]): Unit = {
-    // TODO: Add test cases
+    println(pyth(10))
   }
 }
