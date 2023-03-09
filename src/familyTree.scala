@@ -37,8 +37,8 @@ object familyTree {
     var grandParentsNames1: List[String] = List()
     var grandParentsNames2: List[String] = List()
 
-    if (!parentsNames(0).isEmpty) grandParentsNames1 = parents(parentsNames(0))
-    if (!parentsNames(0).isEmpty) grandParentsNames2 = parents(parentsNames(1))
+    if (!parentsNames.isEmpty && !parentsNames(0).isEmpty) grandParentsNames1 = parents(parentsNames(0))
+    if (parentsNames.length > 1 && !parentsNames(1).isEmpty) grandParentsNames2 = parents(parentsNames(1))
 
     val grandParentsNames = grandParentsNames1 ++ grandParentsNames2
     if (grandParentsNames.isEmpty) None else Some(grandParentsNames)
@@ -109,7 +109,7 @@ object familyTree {
         else if (father == None && mother != None) List(mother)
         else if (father != None && mother == None) List(father)
         else List()
-    }.toList(0)
+    }.getOrElse(List.empty[String])
   }
 
   def main(args: Array[String]): Unit = {
@@ -136,6 +136,6 @@ object familyTree {
     if (children("Krutik", "Kumbhani").isDefined)
       println("Error in children()")
 
-    println(uncles("William"))
+    println(grandparents("William"))
   }
 }
