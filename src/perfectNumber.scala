@@ -16,12 +16,25 @@ object perfectNumber {
    *
    * @return a list of perfect numbers
    */
-  def perfectNumber(): List[(Int)] = {
-    // TODO: implement perfectNumber()
-    List()
+  def perfectNumber(): LazyList[Int] = {
+    LazyList()
+  }
+
+  /**
+   * factors() takes an integer n and returns a LazyList of factors of n, excluding n itself.
+   *
+   * @param n: an integer whose factors are to find
+   * @return a LazyList of factors of n
+   */
+  def factors(n: Int): LazyList[Int] = {
+    unfold(1) { num =>
+      if (num < n) Some(num, num + 1)
+      else None
+    }.filter(n%_ == 0)
   }
 
   def main(args: Array[String]): Unit = {
-
+    println(factors(6).toList)
   }
+
 }
