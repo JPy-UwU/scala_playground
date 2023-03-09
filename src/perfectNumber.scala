@@ -17,7 +17,12 @@ object perfectNumber {
    * @return a list of perfect numbers
    */
   def perfectNumber(): LazyList[Int] = {
-    LazyList()
+    unfold(2) {num =>
+      if (num > 0) Some(num, num + 1)
+      else None
+    }.filter { num =>
+      factors(num).sum == num
+    }
   }
 
   /**
@@ -34,7 +39,7 @@ object perfectNumber {
   }
 
   def main(args: Array[String]): Unit = {
-    println(factors(6).toList)
+    println(perfectNumber().take(4).toList)
   }
 
 }
