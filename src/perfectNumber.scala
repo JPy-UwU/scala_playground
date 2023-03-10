@@ -31,6 +31,7 @@ object perfectNumber {
    * @param n: an integer whose factors are to find
    * @return a LazyList of factors of n
    */
+    /*unchecked*/
   def factors(n: Int): LazyList[Int] = {
     unfold(1) { num =>
       if (num < n) Some(num, num + 1)
@@ -39,7 +40,7 @@ object perfectNumber {
   }
 
   def main(args: Array[String]): Unit = {
-    println(perfectNumber().take(4).toList)
+    println("First 3 perfect numbers are " + perfectNumber().take(3).toList)
+    println("First 4 perfect numbers are " + perfectNumber().take(4).toList)
   }
-
 }
