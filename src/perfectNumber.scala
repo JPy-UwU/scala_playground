@@ -40,7 +40,27 @@ object perfectNumber {
   }
 
   def main(args: Array[String]): Unit = {
-    println("First 3 perfect numbers are " + perfectNumber().take(3).toList)
-    println("First 4 perfect numbers are " + perfectNumber().take(4).toList)
+    /**
+     * test cases for perfectNumber()
+     */
+
+    // Initialize variables for test cases
+    var n = 0
+    var result: LazyList[Int] = LazyList()
+
+
+    /**
+     * testing for first 3 numbers
+     */
+    n = 3
+    result = perfectNumber().take(n)
+    println("First " + n + " perfect numbers are " + result.toList)
+
+    /**
+     * testing for first 4 numbers
+     */
+    n = 4
+    result = perfectNumber().take(n)
+    println("First " + n + " perfect numbers are " + result.toList)
   }
 }
