@@ -36,6 +36,49 @@ object pythagoreanFunct {
   }
 
   def main(args: Array[String]): Unit = {
-    println(pyth(10))
+
+    /**
+     * Test cases for pyth()
+     */
+
+    // Initializing variables for test cases
+    var n: Int = 0
+    var result: List[(Int, Int, Int)] = List()
+
+    /**
+     * testing with n = 0
+     */
+
+    result = pyth(n)
+    println("Input: " + n)
+    println("Output: " + result)
+
+    /**
+     * testing with n = 5
+     */
+
+    n = 5
+    result = pyth(n)
+    println("\nInput: " + n)
+    println("Output: " + result)
+
+    /**
+     * testing with n = 10
+     */
+
+    n = 10
+    result = pyth(n)
+    println("\nInput: " + n)
+    println("Output: " + result)
+
+    /**
+     * testing with n = 17
+     */
+
+    n = 17
+    result = pyth(n)
+    println("\nInput: " + n)
+    println("Output: " + result)
+
   }
 }
