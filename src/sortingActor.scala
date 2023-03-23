@@ -10,4 +10,7 @@
  */
 object sortingActor {
 
+  def main(args: Array[String]): Unit = {
+    // TODO: add test cases
+  }
 }
