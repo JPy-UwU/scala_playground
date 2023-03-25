@@ -10,10 +10,67 @@
  */
 
 import akka.actor._
-object sortingActor {
 
+object sortingActor {
+  case class FilterActor(nextActor: ActorRef, minValue: Int, maxValue: Int) extends Actor {
+    var nextValue: Option[Int] = None
+    var minSaved: Int = minValue
+
+    def receive: PartialFunction[Any, Unit] = {
+      case value: Int =>
+        if (value < minSaved) {
+          nextValue.foreach(nextActor ! _)      // send all previously received values to the next actor
+          nextValue = Some(minSaved)             // store the current minimum value as the next value
+          minSaved = value                       // update the minimum value seen so far
+        }
+        else {
+          nextValue.foreach(nextActor ! _)      // send the next value to the next actor
+          nextValue = Some(value)
+        }
+
+      case 0 =>
+        nextValue.foreach(nextActor ! _)        // send the next value to the next actor
+        sender() ! minSaved                      // send the minimum value seen to the sender of the sentinel
+    }
+  }
+
+  case class SortActor(originalSender: ActorRef) extends Actor {
+    val firstActor = context.actorOf(Props(FilterActor(self, 0, Int.MaxValue)))
+
+    def receive: PartialFunction[Any, Unit] = {
+      case sorted: Int =>
+        originalSender ! sorted             // send the sorted value to the original requester
+
+      case value: Int =>
+        firstActor ! value                  // send the value to the first filter actor
+
+      case 0 =>
+        firstActor ! 0                      // send the sentinel to the first filter actor
+    }
+  }
+
+  class OriginalSenderActor extends Actor {
+    def receive: PartialFunction[Any, Unit] = {
+      case value: Int =>
+        println(value)
+    }
+  }
 
   def main(args: Array[String]): Unit = {
-    // TODO: add test cases
+    val system = ActorSystem("sortingActor")
+
+    val originalSender = system.actorOf(Props[OriginalSenderActor])
+    val sortActor = system.actorOf(Props(SortActor(originalSender)))
+
+    sortActor ! 1
+    sortActor ! 4
+    sortActor ! 1
+    sortActor ! 5
+    sortActor ! 9
+    sortActor ! 2
+    sortActor ! 6
+    sortActor ! 0
+
+    system.terminate();
   }
 }
